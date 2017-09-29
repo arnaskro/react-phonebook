@@ -19,7 +19,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-yearn.lock
+yarn.lock
 package-lock.json
 /.vs_code
 .firebaserc
