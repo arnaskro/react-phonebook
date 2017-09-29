@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Button } from 'reactstrap';
+import Counter from '../Counter/Counter';
 
 class App extends Component {
   render() {
@@ -10,7 +10,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React Phonebook</h1>
         </header>
         <br />
-          <Button color="danger">Danger!</Button>
+        <Counter />
       </div>
     );
   }
