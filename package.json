@@ -13,13 +13,13 @@
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.14",
+    "react-transition-group": "^2.2.0",
+    "reactstrap": "^4.8.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "react-transition-group": "^2.2.0",
-    "reactstrap": "^4.8.0"
-  },
-  "dependencies": {
-    "bootstrap": "^4.0.0-beta"
+    "bootstrap": "^4.0.0-beta",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.5"
   }
 }
