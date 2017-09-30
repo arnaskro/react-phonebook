@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Counter from '../Counter/Counter';
+import Contacts from '../Contacts';
+
+import { Container } from 'reactstrap';
 
 class App extends Component {
   render() {
@@ -9,8 +11,11 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Welcome to React Phonebook</h1>
         </header>
-        <br />
-        <Counter />
+
+        <Container>
+          <Contacts />
+        </Container>
+
       </div>
     );
   }

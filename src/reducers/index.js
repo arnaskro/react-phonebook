@@ -1,10 +1,10 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import CounterReducer from './CounterReducer';
+import ContactsReducer from './ContactsReducer';
 
 // Combine the reducers
 const reducers = combineReducers({
-  counter: CounterReducer
+  contacts: ContactsReducer
 });
 
 // Create middleware
