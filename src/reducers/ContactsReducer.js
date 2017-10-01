@@ -17,7 +17,12 @@ export const initialState = {
   sorting: {
     asc: true,
     column: SortColumns.ID
+  },
+  modal: {
+    isOpen: false,
+    isNestedOpen: false
   }
+
 };
 
 export default (state = initialState, action) => {
@@ -48,17 +53,34 @@ export default (state = initialState, action) => {
       };
     case types.CONTACTS_TOGGLE_SORT:
       let sortDirection = state.sorting.column === action.payload ? !state.sorting.asc : true;
-
-      return {
+        return {
         ...state,
         data: dataSort(state.data, sortDirection, action.payload),
-        sorting: {  
-          asc: sortDirection, 
-          column: action.payload 
+        sorting: {
+          asc: sortDirection,
+          column: action.payload
+        }
+      };
+    case types.TOGGLE_CONTACT_MODAL_STATE:
+    console.log(state);
+      return {
+        ...state,
+        modal: {
+          isOpen: action.payload,
+          isNestedOpen: false
+        }
+      };
+    case types.TOGGLE_CONTACT_NESTED_MODAL_STATE:
+      return {
+        ...state,
+        modal: {
+          isOpen: true,
+          isNestedOpen: action.payload
         }
       };
     default:
       return state;
+
   // eslint-disable-next-line
   };
 

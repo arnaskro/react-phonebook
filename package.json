@@ -9,7 +9,11 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "bootstrap": "^4.0.0-beta",
     "react": "^16.0.0",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.5",
+    "react-fontawesome": "^1.6.1",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.14",
@@ -19,7 +23,5 @@
     "react-transition-group": "^2.2.0",
     "reactstrap": "^4.8.0"
   },
-  "dependencies": {
-    "bootstrap": "^4.0.0-beta"
-  }
+  "dependencies": {}
 }
