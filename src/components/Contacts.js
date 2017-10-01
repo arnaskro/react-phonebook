@@ -40,7 +40,7 @@ class Contacts extends React.Component {
             </InputGroup>
           </Col>
           <Col xs="12">
-            <ContactsList data={this.props.data} />
+            <ContactsList />
           </Col>
         </Row>
       </div>
