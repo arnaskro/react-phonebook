@@ -31,7 +31,13 @@ class ContactsList extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.data.map((x, i) => <ContactsListItem onClick={this.handleChildClick.bind(i)} data={x} key={i}/> )}
+          {this.props.data.map((x, i) => 
+            <tr key={i} onClick={() => console.log(x.id)}> 
+                <td>{x.id}</td> 
+                <td>{x.name}</td> 
+                <td>{x.phonenumber}</td> 
+            </tr>)
+            }
         </tbody>
       </Table>
     );
