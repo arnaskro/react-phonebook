@@ -1,4 +1,4 @@
-import { types, SortColumns } from '../actions/ContactsActions';
+import { types, SortColumns, ListTypes } from '../actions/ContactsActions';
 import Contact from '../models/Contact';
 import FavoriteContact from '../models/FavoriteContact';
 
@@ -25,7 +25,8 @@ export const initialState = {
   },
   favorites: [
     new FavoriteContact(2)
-  ]
+  ],
+  activeList: ListTypes.ALL
 };
 
 export default (state = initialState, action) => {
@@ -122,6 +123,11 @@ export default (state = initialState, action) => {
         return {
           ...state,
           favorites: state.favorites.filter(x => x.contactId === action.payload).length > 0 ? state.favorites.filter(x => x.contactId !== action.payload) : [...state.favorites, new FavoriteContact(action.payload)]
+        };
+      case types.TOGGLE_LIST_TYPE:
+        return {
+          ...state,
+          activeList: action.payload
         };
     default:
       return state;

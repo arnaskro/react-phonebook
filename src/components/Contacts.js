@@ -3,8 +3,9 @@ import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CModalWindow from './shared/ModalWindow';
+import {ListTypes} from '../actions/ContactsActions';
 
-import { Row, Col, Input, InputGroup, InputGroupButton, Button } from 'reactstrap';
+import { Row, Col, Input, InputGroup, InputGroupButton, Button, ButtonGroup } from 'reactstrap';
 
 
 import ContactsList from './ContactsList';
@@ -42,7 +43,17 @@ class Contacts extends React.Component {
           </Col>
           <Col xs="12">
             <ContactsList />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" md="6">
             <p className="text-muted">You have <b>{this.props.data.length}</b> contacts.</p>
+          </Col>
+          <Col xs="12" md="6">
+            <ButtonGroup size="sm" className="float-right">
+              <Button onClick={() => this.props.actions.toggleListType(ListTypes.ALL)} color={this.props.activeList === ListTypes.ALL ? "dark" : "light" }>All</Button>
+              <Button onClick={() => this.props.actions.toggleListType(ListTypes.FAVORITES)} color={this.props.activeList === ListTypes.FAVORITES ? "dark" : "light" }>Favorites</Button>
+            </ButtonGroup>
           </Col>
         </Row>
         <CModalWindow />
@@ -55,7 +66,8 @@ class Contacts extends React.Component {
 const mapStateToProps = (state) => {
 	return {
     data: state.contacts.data,
-    input: state.contacts.input
+    input: state.contacts.input,
+    activeList: state.contacts.activeList
 	};
 };
 

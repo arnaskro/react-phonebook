@@ -38,7 +38,7 @@ class ContactsList extends React.Component {
             data={x}
             editFunction={() => this.props.actions.toggleModal(x.id)}
             favoriteFunction={() => this.props.actions.toggleFavorite(x.id)}
-            isFavorite={this.props.favorites.filter(y => y.contactId == x.id).length > 0}
+            isFavorite={this.props.favorites.filter(y => y.contactId === x.id).length > 0}
           />
           )}
         </tbody>

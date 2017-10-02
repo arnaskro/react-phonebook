@@ -7,13 +7,19 @@ export const types = {
   CONTACTS_TOGGLE_SORT: 'CONTACTS_TOGGLE_SORT',
   TOGGLE_CONTACT_MODAL_STATE : 'TOGGLE_CONTACT_MODAL_STATE',
   TOGGLE_CONTACT_NESTED_MODAL_STATE : 'TOGGLE_CONTACT_NESTED_MODAL_STATE',
-  TOGGLE_FAVORITE_CONTACT: 'TOGGLE_FAVORITE_CONTACT'
+  TOGGLE_FAVORITE_CONTACT: 'TOGGLE_FAVORITE_CONTACT',
+  TOGGLE_LIST_TYPE: 'TOGGLE_LIST_TYPE'
 };
 
 export const SortColumns = {
   ID: "ID",
   NAME: "NAME",
   PHONENUMBER: "PHONENUMBER"
+};
+
+export const ListTypes = {
+  ALL: "ALL",
+  FAVORITES: "FAVORITES"
 };
 
 export const sortByColumn = (column = SortColumns.ID) => {
@@ -106,6 +112,15 @@ export const toggleFavorite = (contactId = -1) => {
       dispatch({
           type: types.TOGGLE_FAVORITE_CONTACT,
           payload: contactId
+      });
+  };
+};
+
+export const toggleListType = (listType = ListTypes.ALL) => {
+  return function (dispatch) {
+      dispatch({
+          type: types.TOGGLE_LIST_TYPE,
+          payload: listType
       });
   };
 };
