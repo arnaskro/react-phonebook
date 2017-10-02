@@ -103,7 +103,7 @@ export default (state = initialState, action) => {
           ...state.modal,
           isOpen: action.payload !== null,
           activeId: action.payload,
-          activeObject: action.payload >=0 ? state.data[action.payload] : { name: '', phonenumber: ''}
+          activeObject: action.payload !== null ? state.data.filter(x => x.id === action.payload)[0] : new Contact()
 
         }
       };
