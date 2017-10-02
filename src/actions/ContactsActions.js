@@ -1,11 +1,14 @@
 export const types = {
   ADD_CONTACT: 'ADD_CONTACT',
   REMOVE_CONTACT: 'REMOVE_CONTACT',
+  UPDATE_CONTACT: 'UPDATE_CONTACT',
   INPUT_CONTACT_NAME: 'INPUT_CONTACT_NAME',
   INPUT_CONTACT_PHONENUMBER: 'INPUT_CONTACT_PHONENUMBER',
-  CONTACTS_TOGGLE_SORT: 'CONTACTS_TOGGLE_SORT'
+  CONTACTS_TOGGLE_SORT: 'CONTACTS_TOGGLE_SORT',
+  TOGGLE_CONTACT_MODAL_STATE : 'TOGGLE_CONTACT_MODAL_STATE',
+  TOGGLE_CONTACT_NESTED_MODAL_STATE : 'TOGGLE_CONTACT_NESTED_MODAL_STATE'
 };
-  
+
 export const SortColumns = {
   ID: "ID",
   NAME: "NAME",
@@ -32,27 +35,67 @@ export const add = (id, name, phonenumber) => {
 
 export const remove = (id = -1) => {
   return function (dispatch) {
+
     dispatch({
       type: types.REMOVE_CONTACT,
       payload: id
     });
   };
 };
-
-export const inputName = (value = "") => {
+export const update = (id = -1, activeObject = {}) => {
   return function (dispatch) {
+
     dispatch({
-      type: types.INPUT_CONTACT_NAME,
-      payload: value
+      type: types.UPDATE_CONTACT,
+      payload: {
+        id: id,
+        activeObject: activeObject
+      }
     });
   };
 };
 
-export const inputPhonenumber = (value = "") => {
+export const inputName = (value = "", type = false) => {
+  return function (dispatch) {
+    dispatch({
+      type: types.INPUT_CONTACT_NAME,
+      payload: {
+        value: value,
+        type: type
+      }
+    });
+  };
+};
+
+export const inputPhonenumber = (value = "", type = false) => {
   return function (dispatch) {
     dispatch({
       type: types.INPUT_CONTACT_PHONENUMBER,
-      payload: value
+      payload: {
+        value: value,
+        type: type
+      }
+    });
+  };
+};
+
+export const toggleModal = (objectId = null) => {
+  return function (dispatch) {
+    dispatch({
+      type: types.TOGGLE_CONTACT_MODAL_STATE,
+      payload: objectId
+    });
+  };
+};
+
+export const toggleNestedModal = (object = null) => {
+  return function (dispatch) {
+    dispatch({
+      type: types.TOGGLE_CONTACT_NESTED_MODAL_STATE,
+      payload: {
+        isNestedOpened : object.isNestedOpened,
+        id: object.objectId
+      }
     });
   };
 };

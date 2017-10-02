@@ -4,9 +4,9 @@ import { SortColumns } from '../actions/ContactsActions';
 import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { ContactsListItem } from './ContactsListItem';
 
 import { Table } from 'reactstrap';
-
 
 class ContactsList extends React.Component {
 
@@ -22,7 +22,8 @@ class ContactsList extends React.Component {
   render() {
 
     return (
-      <Table>
+
+      <Table hover>
         <thead>
           <tr>
             <th onClick={() => this._sort(SortColumns.ID)}>ID {this._sortHelper(SortColumns.ID)}</th>
@@ -31,15 +32,10 @@ class ContactsList extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.data.map((x, i) => 
-            <tr key={i} onClick={() => console.log(x.id)}> 
-                <td>{x.id}</td> 
-                <td>{x.name}</td> 
-                <td>{x.phonenumber}</td> 
-            </tr>)
-            }
+          {this.props.data.map((x, i) => <ContactsListItem onClick={() => this.props.actions.toggleModal(x.id)} data={x} key={i}/> )}
         </tbody>
       </Table>
+
     );
   };
 };
@@ -48,6 +44,7 @@ const mapStateToProps = (state) => {
   return {
     data: state.contacts.data,
     sorting: state.contacts.sorting,
+    modal: state.contacts.modal
   };
 };
 

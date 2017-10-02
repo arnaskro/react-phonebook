@@ -2,6 +2,7 @@ import React from 'react';
 import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import CModalWindow from './shared/ModalWindow';
 
 import { Row, Col, Input, InputGroup, InputGroupButton, Button } from 'reactstrap';
 
@@ -18,23 +19,23 @@ class Contacts extends React.Component {
         <Row>
           <Col xs="12">
             <InputGroup>
-              <Input 
-                ref="name" 
-                type="text" 
-                placeholder="Name" 
+              <Input
+                ref="name"
+                type="text"
+                placeholder="Name"
                 value={this.props.input.name}
                 onChange={(e) => this.props.actions.inputName(e.target.value)}/>
-              <Input 
+              <Input
                 type="text"
                 placeholder="Phonenumber"
                 value={this.props.input.phonenumber}
                 onChange={(e) => this.props.actions.inputPhonenumber(e.target.value)}/>
               <InputGroupButton>
-                <Button 
-                  disabled={this.props.input.name.length < 2 || this.props.input.phonenumber.length < 2} 
-                  color="success" 
+                <Button
+                  disabled={this.props.input.name.length < 2 || this.props.input.phonenumber.length < 2}
+                  color="success"
                   onClick={() => {
-                   this.props.actions.add(this.props.data.length, this.props.input.name, this.props.input.phonenumber);    
+                   this.props.actions.add(this.props.data.length, this.props.input.name, this.props.input.phonenumber);
                   }}>Add</Button>
               </InputGroupButton>
             </InputGroup>
@@ -43,6 +44,7 @@ class Contacts extends React.Component {
             <ContactsList />
           </Col>
         </Row>
+        <CModalWindow />
       </div>
     );
   }
