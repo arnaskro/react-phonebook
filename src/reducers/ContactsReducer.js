@@ -20,7 +20,9 @@ export const initialState = {
   },
   modal: {
     isOpen: false,
-    activeId: null
+    isNestedOpened: false,
+    activeId: null,
+    activeObject: { name: '', phonenumber: ''}
   }
 
 };
@@ -38,19 +40,54 @@ export default (state = initialState, action) => {
         }
       };
     case types.REMOVE_CONTACT:
-      return Object.assign({}, state, {
-        data: state.filter(x => x !== action.payload.id)
-      });
-    case types.INPUT_CONTACT_NAME:
+    return Object.assign({}, state, {
+        data: state.data.filter((x,i) => i !== action.payload),
+        modal: {
+          isOpen: false,
+          isNestedOpened: false,
+          activeId: null,
+          activeObject: { name: '', phonenumber: ''}
+        }
+        });
+    case types.UPDATE_CONTACT:
       return {
         ...state,
-        input: { ...state.input, name: action.payload }
+        data: state.data.map((x,i) => i === action.payload.id ? action.payload.activeObject : x),
+        modal: {
+          isOpen : false,
+          isNestedOpened : false,
+          activeId : null,
+          activeObject : { name: '', phonenumber: ''}
+        }
+      };
+    case types.INPUT_CONTACT_NAME:
+      return action.payload.type ? { //If true we save in modal.activeObject.name else we save in input.name
+        ...state,
+        modal : {
+          ...state.modal,
+          activeObject : {
+            ...state.modal.activeObject,
+            name : action.payload.value
+          }
+        }
+      } : {
+        ...state,
+        input: { ...state.input, name: action.payload.value }
       };
     case types.INPUT_CONTACT_PHONENUMBER:
-      return {
-        ...state,
-        input: { ...state.input, phonenumber: action.payload }
-      };
+    return action.payload.type ? { //If true we save in modal.activeObject.phonenumber else we save in input.phonenumber
+      ...state,
+      modal : {
+        ...state.modal,
+        activeObject : {
+          ...state.modal.activeObject,
+          phonenumber : action.payload.value
+        }
+      }
+    } : {
+      ...state,
+      input: { ...state.input, phonenumber: action.payload.value }
+    };
     case types.CONTACTS_TOGGLE_SORT:
       let sortDirection = state.sorting.column === action.payload ? !state.sorting.asc : true;
         return {
@@ -65,10 +102,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         modal: {
+          ...state.modal,
           isOpen: action.payload !== null,
-          activeId: action.payload
+          activeId: action.payload,
+          activeObject: action.payload >=0 ? state.data[action.payload] : { name: '', phonenumber: ''}
+
         }
       };
+      case types.TOGGLE_CONTACT_NESTED_MODAL_STATE:
+        return {
+          ...state,
+          modal: {
+            ...state.modal,
+            isNestedOpened: action.payload.isNestedOpened
+          }
+        };
     default:
       return state;
 

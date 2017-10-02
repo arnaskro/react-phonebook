@@ -22,7 +22,7 @@ class ContactsList extends React.Component {
   render() {
 
     return (
-      
+
       <Table hover>
         <thead>
           <tr>

@@ -4,24 +4,52 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, InputGroup, InputGroupButton } from 'reactstrap';
 
 class CModalWindow extends React.Component {
-    
+
   render() {
-    
+
     const toggle = () => this.props.actions.toggleModal();
+
+    const toggleNested = () => this.props.actions.toggleNestedModal({'isNestedOpened' : !this.props.isNestedOpened, 'objectId' : this.props.activeId});
+
+    const deleteContact = () => this.props.actions.remove(this.props.activeId);
 
     return (
       <Modal isOpen={this.props.isOpen} toggle={toggle} className={this.props.className}>
-        <ModalHeader toggle={toggle}>Item ID {this.props.activeId}</ModalHeader>
+        <ModalHeader toggle={toggle}>Edit contact</ModalHeader>
         <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <InputGroup>
+            <Input
+              ref="name"
+              type="text"
+              placeholder="Name"
+              value={this.props.activeObject.name}
+              onChange={(e) => this.props.actions.inputName(e.target.value, true)}/>
+            <Input
+              type="text"
+              placeholder="Phonenumber"
+              value={this.props.activeObject.phonenumber}
+              onChange={(e) => this.props.actions.inputPhonenumber(e.target.value, true)}/>
+          </InputGroup>
           <br />
+          <Button color="danger" onClick={toggleNested}>Delete contact</Button>
+            <Modal isOpen={this.props.isNestedOpened} toggle={toggleNested}>
+              <ModalHeader>Delete contact</ModalHeader>
+              <ModalBody>Are you sure?</ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={deleteContact}>Delete</Button>{' '}
+                <Button color="secondary" onClick={toggleNested}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
         </ModalBody>
         <ModalFooter>
-          
-          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
+
+          <Button disabled={this.props.activeObject.name.length < 2 || this.props.activeObject.phonenumber.length < 2} color="primary"
+            onClick={() => {
+           this.props.actions.update(this.props.activeId, this.props.activeObject);
+          }}>Save changes</Button>{' '}
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
@@ -31,8 +59,11 @@ class CModalWindow extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    input: state.contacts.input,
     isOpen: state.contacts.modal.isOpen,
-    activeId: state.contacts.modal.activeId
+    isNestedOpened: state.contacts.modal.isNestedOpened,
+    activeId: state.contacts.modal.activeId,
+    activeObject: state.contacts.modal.activeObject
   };
 };
 
