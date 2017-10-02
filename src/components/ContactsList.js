@@ -20,19 +20,27 @@ class ContactsList extends React.Component {
   }
 
   render() {
-
+    
     return (
 
-      <Table hover bordered className="thead-inverse">
+      <Table bordered className="thead-inverse">
         <thead>
           <tr>
             <th onClick={() => this._sort(SortColumns.ID)}>ID {this._sortHelper(SortColumns.ID)}</th>
             <th onClick={() => this._sort(SortColumns.NAME)}>Name {this._sortHelper(SortColumns.NAME)}</th>
             <th onClick={() => this._sort(SortColumns.PHONENUMBER)}>Phonenumber {this._sortHelper(SortColumns.PHONENUMBER)}</th>
+            <th colSpan={2} className="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {this.props.data.map((x, i) => <ContactsListItem onClick={() => this.props.actions.toggleModal(x.id)} data={x} key={i}/> )}
+          {this.props.data.map((x, i) =><ContactsListItem 
+            key={i}
+            data={x}
+            editFunction={() => this.props.actions.toggleModal(x.id)}
+            favoriteFunction={() => this.props.actions.toggleFavorite(x.id)}
+            isFavorite={this.props.favorites.filter(y => y.contactId == x.id).length > 0}
+          />
+          )}
         </tbody>
       </Table>
 
@@ -44,7 +52,8 @@ const mapStateToProps = (state) => {
   return {
     data: state.contacts.data,
     sorting: state.contacts.sorting,
-    modal: state.contacts.modal
+    modal: state.contacts.modal,
+    favorites: state.contacts.favorites
   };
 };
 

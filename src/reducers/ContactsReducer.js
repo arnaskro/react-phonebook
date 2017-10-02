@@ -1,5 +1,6 @@
 import { types, SortColumns } from '../actions/ContactsActions';
 import Contact from '../models/Contact';
+import FavoriteContact from '../models/FavoriteContact';
 
 export const initialState = {
   data: [
@@ -21,8 +22,10 @@ export const initialState = {
     isNestedOpened: false,
     activeId: null,
     activeObject: new Contact()
-  }
-
+  },
+  favorites: [
+    new FavoriteContact(2)
+  ]
 };
 
 export default (state = initialState, action) => {
@@ -114,6 +117,11 @@ export default (state = initialState, action) => {
             ...state.modal,
             isNestedOpened: action.payload.isNestedOpened
           }
+        };
+      case types.TOGGLE_FAVORITE_CONTACT:
+        return {
+          ...state,
+          favorites: state.favorites.filter(x => x.contactId === action.payload).length > 0 ? state.favorites.filter(x => x.contactId !== action.payload) : [...state.favorites, new FavoriteContact(action.payload)]
         };
     default:
       return state;

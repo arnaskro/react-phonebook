@@ -30,3 +30,7 @@ th span {
 table {
   margin-top: 25px;
 }
+
+td.action:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
