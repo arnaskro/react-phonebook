@@ -10,18 +10,18 @@
   },
   "devDependencies": {
     "bootstrap": "^4.0.0-beta",
-    "react": "^16.0.0",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.5",
+    "react": "15.6.1",
+    "react-addons-transition-group": "^15.6.2",
+    "react-dom": "15.6.1",
     "react-fontawesome": "^1.6.1",
-    "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.14",
+    "react-transition-group": "1.2.0",
+    "reactstrap": "^4.8.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
-    "react-transition-group": "^2.2.0",
-    "reactstrap": "^4.8.0"
-  },
-  "dependencies": {}
+    "redux-thunk": "^2.2.0"
+  }
 }
