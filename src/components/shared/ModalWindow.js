@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, InputGroup, InputGroupButton } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, InputGroup } from 'reactstrap';
 
 class CModalWindow extends React.Component {
 
