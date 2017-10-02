@@ -17,9 +17,6 @@ h1 {
   font-size: large;
 }
 
-th:hover {
-  background: rgba(0,0,0,0.025)
-}
 th:hover, tr:hover {
   cursor: pointer;
 }

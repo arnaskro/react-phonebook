@@ -23,7 +23,7 @@ class ContactsList extends React.Component {
 
     return (
 
-      <Table hover>
+      <Table hover bordered className="thead-inverse">
         <thead>
           <tr>
             <th onClick={() => this._sort(SortColumns.ID)}>ID {this._sortHelper(SortColumns.ID)}</th>
