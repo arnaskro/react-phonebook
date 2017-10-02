@@ -11,10 +11,7 @@ export const initialState = {
   fetching: false,
   fetched: false,
   error: null,
-  input: {
-    name: "",
-    phonenumber: ""
-  },
+  input: new Contact(),
   sorting: {
     asc: true,
     column: SortColumns.ID
@@ -23,7 +20,7 @@ export const initialState = {
     isOpen: false,
     isNestedOpened: false,
     activeId: null,
-    activeObject: { name: '', phonenumber: ''}
+    activeObject: new Contact()
   }
 
 };
@@ -47,7 +44,7 @@ export default (state = initialState, action) => {
           isOpen: false,
           isNestedOpened: false,
           activeId: null,
-          activeObject: { name: '', phonenumber: ''}
+          activeObject: new Contact()
         }
         });
     case types.UPDATE_CONTACT:
@@ -58,7 +55,7 @@ export default (state = initialState, action) => {
           isOpen : false,
           isNestedOpened : false,
           activeId : null,
-          activeObject : { name: '', phonenumber: ''}
+          activeObject : new Contact()
         }
       };
     case types.INPUT_CONTACT_NAME:
