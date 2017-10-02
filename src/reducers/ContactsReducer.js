@@ -19,8 +19,7 @@ export const initialState = {
     column: SortColumns.ID
   },
   modal: {
-    isOpen: false,
-    isNestedOpen: false
+    isOpen: false
   }
 
 };
@@ -62,20 +61,10 @@ export default (state = initialState, action) => {
         }
       };
     case types.TOGGLE_CONTACT_MODAL_STATE:
-    console.log(state);
       return {
         ...state,
         modal: {
-          isOpen: action.payload,
-          isNestedOpen: false
-        }
-      };
-    case types.TOGGLE_CONTACT_NESTED_MODAL_STATE:
-      return {
-        ...state,
-        modal: {
-          isOpen: true,
-          isNestedOpen: action.payload
+          isOpen: action.payload
         }
       };
     default:

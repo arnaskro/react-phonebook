@@ -4,8 +4,7 @@ export const types = {
   INPUT_CONTACT_NAME: 'INPUT_CONTACT_NAME',
   INPUT_CONTACT_PHONENUMBER: 'INPUT_CONTACT_PHONENUMBER',
   CONTACTS_TOGGLE_SORT: 'CONTACTS_TOGGLE_SORT',
-  TOGGLE_CONTACT_MODAL_STATE : 'TOGGLE_CONTACT_MODAL_STATE',
-  TOGGLE_CONTACT_NESTED_MODAL_STATE : 'TOGGLE_CONTACT_NESTED_MODAL_STATE'
+  TOGGLE_CONTACT_MODAL_STATE : 'TOGGLE_CONTACT_MODAL_STATE'
 };
 
 export const SortColumns = {
@@ -59,19 +58,10 @@ export const inputPhonenumber = (value = "") => {
   };
 };
 
-export const toggleModal = (value = "") => {
+export const toggleModal = (value = false) => {
   return function (dispatch) {
     dispatch({
       type: types.TOGGLE_CONTACT_MODAL_STATE,
-      payload: value
-    });
-  };
-};
-
-export const toggleNestedModal = (value = "") => {
-  return function (dispatch) {
-    dispatch({
-      type: types.TOGGLE_CONTACT_NESTED_MODAL_STATE,
       payload: value
     });
   };

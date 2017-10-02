@@ -18,8 +18,16 @@ h1 {
 }
 
 th:hover {
-  cursor: pointer;
   background: rgba(0,0,0,0.025)
+}
+th:hover, tr:hover {
+  cursor: pointer;
+}
+
+th span {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 table {

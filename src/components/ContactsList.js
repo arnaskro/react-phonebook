@@ -5,7 +5,6 @@ import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ContactsListItem } from './ContactsListItem';
-import { CModalWindow } from './shared/ModalWindow';
 
 import { Table } from 'reactstrap';
 
@@ -46,7 +45,6 @@ class ContactsList extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     data: state.contacts.data,
     sorting: state.contacts.sorting,

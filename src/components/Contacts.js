@@ -2,7 +2,7 @@ import React from 'react';
 import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { CModalWindow } from './shared/ModalWindow';
+import CModalWindow from './shared/ModalWindow';
 
 import { Row, Col, Input, InputGroup, InputGroupButton, Button } from 'reactstrap';
 
@@ -44,6 +44,7 @@ class Contacts extends React.Component {
             <ContactsList />
           </Col>
         </Row>
+        <CModalWindow />
       </div>
     );
   }
