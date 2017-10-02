@@ -19,10 +19,6 @@ class ContactsList extends React.Component {
       return <FontAwesome name={this.props.sorting.asc ? 'sort-asc' : 'sort-desc'} />;
   }
 
-  _toggle() {
-    this.props.actions.toggleModal(!this.props.modal.isOpen);
-  }
-
   render() {
 
     return (
@@ -36,7 +32,7 @@ class ContactsList extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.data.map((x, i) => <ContactsListItem onClick={() => this._toggle()} data={x} key={i}/> )}
+          {this.props.data.map((x, i) => <ContactsListItem onClick={() => this.props.actions.toggleModal(x.id)} data={x} key={i}/> )}
         </tbody>
       </Table>
 

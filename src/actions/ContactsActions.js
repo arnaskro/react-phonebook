@@ -58,11 +58,11 @@ export const inputPhonenumber = (value = "") => {
   };
 };
 
-export const toggleModal = (value = false) => {
+export const toggleModal = (objectId = null) => {
   return function (dispatch) {
     dispatch({
       type: types.TOGGLE_CONTACT_MODAL_STATE,
-      payload: value
+      payload: objectId
     });
   };
 };

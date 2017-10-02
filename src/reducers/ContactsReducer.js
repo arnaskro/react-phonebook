@@ -19,7 +19,8 @@ export const initialState = {
     column: SortColumns.ID
   },
   modal: {
-    isOpen: false
+    isOpen: false,
+    activeId: null
   }
 
 };
@@ -64,7 +65,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         modal: {
-          isOpen: action.payload
+          isOpen: action.payload !== null,
+          activeId: action.payload
         }
       };
     default:
