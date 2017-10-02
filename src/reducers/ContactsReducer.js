@@ -1,11 +1,12 @@
 import { types, SortColumns } from '../actions/ContactsActions';
+import Contact from '../models/Contact';
 
 export const initialState = {
   data: [
-    {id: 0, name: "Johny", phonenumber: 88228844},
-    {id: 1, name: "Bob", phonenumber: 11223344},
-    {id: 2, name: "Elisa", phonenumber: 99887766},
-    {id: 3, name: "Bart", phonenumber: 22332233}
+    new Contact(0, "Johny", 88228844),
+    new Contact(1, "Bob", 11223344),
+    new Contact(2, "Elisa", 99887766),
+    new Contact(3, "Bart", 22332233)
   ],
   fetching: false,
   fetched: false,
