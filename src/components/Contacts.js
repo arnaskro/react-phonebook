@@ -42,6 +42,7 @@ class Contacts extends React.Component {
           </Col>
           <Col xs="12">
             <ContactsList />
+            <p className="text-muted">You have <b>{this.props.data.length}</b> contacts.</p>
           </Col>
         </Row>
         <CModalWindow />
