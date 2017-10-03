@@ -2,13 +2,21 @@ import { types, SortColumns, ListTypes } from '../actions/ContactsActions';
 import Contact from '../models/Contact';
 import FavoriteContact from '../models/FavoriteContact';
 
-export const initialState = {
-  data: [
+const initialContactsData = () => {
+  return JSON.parse(localStorage.getItem('contactsData')) || [
     new Contact(0, "Johny", 88228844),
     new Contact(1, "Bob", 11223344),
     new Contact(2, "Elisa", 99887766),
     new Contact(3, "Bart", 22332233)
-  ],
+  ];
+}
+
+const initialFavoriteContactsData = () => {
+  return JSON.parse(localStorage.getItem('favoriteContactsData')) || [];
+}
+
+export const initialState = {
+  data: initialContactsData(),
   fetching: false,
   fetched: false,
   error: null,
@@ -23,9 +31,7 @@ export const initialState = {
     activeId: null,
     activeObject: new Contact()
   },
-  favorites: [
-    new FavoriteContact(2)
-  ],
+  favorites: initialFavoriteContactsData(),
   activeList: ListTypes.ALL,
   searchParam: "",
   searchedData: null,
@@ -33,6 +39,34 @@ export const initialState = {
 };
 
 export default (state = initialState, action) => {
+  let newState = manipulateData(state, action);
+
+  localStorage.setItem('contactsData', JSON.stringify(newState.data));
+  localStorage.setItem('favoriteContactsData', JSON.stringify(newState.favorites));
+
+  return newState;
+};
+
+const dataSort = (data, asc, column) => {
+  let sortedData = [];
+
+  switch (column){
+    case SortColumns.PHONENUMBER:
+      sortedData = data.sort((a, b) => { return a.phonenumber < b.phonenumber });
+      break;
+    case SortColumns.NAME:
+      sortedData = data.sort((a, b) => { return a.name.toLowerCase() < b.name.toLowerCase() });
+      break;
+    case SortColumns.ID:
+    default:
+      sortedData = data.sort((a, b) => { return a.id - b.id; });
+      break;
+  }
+
+  return asc ? sortedData : sortedData.reverse();
+};
+
+const manipulateData = (state, action) => {
 
   switch (action.type) {
     case types.ADD_CONTACT:
@@ -176,3 +210,4 @@ const dataSort = (data, asc, column) => {
 };
 
 const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
+
