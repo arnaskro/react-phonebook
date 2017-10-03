@@ -121,7 +121,6 @@ export default (state = initialState, action) => {
           }
         };
       case types.TOGGLE_FAVORITE_CONTACT:
-      console.log("FAV", action.payload);
         return {
           ...state,
           favorites: state.favorites.filter(y => y.contactId === action.payload).length > 0 ? state.favorites.filter(y => y.contactId !== action.payload) : [...state.favorites, new FavoriteContact(action.payload)]

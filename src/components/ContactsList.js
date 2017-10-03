@@ -25,7 +25,7 @@ class ContactsList extends React.Component {
       return data.map((x, i) => <ContactsListItem
         key={i}
         data={x}
-        editFunction={() => {console.log(x); this.props.actions.toggleModal(x.id)}}
+        editFunction={() => this.props.actions.toggleModal(x.id)}
         favoriteFunction={() => this.props.actions.toggleFavorite(x.id)}
         isFavorite={this.props.favorites.filter(y => y.contactId === x.id).length > 0}
       />)
