@@ -13,15 +13,12 @@ import ContactsList from './ContactsList';
 class Contacts extends React.Component {
 
   _getNoOfContacts() {
-    console.log(this.props);
-    switch(this.props.activeList){
+    switch(this.props.activeList) {
       case "ALL":
         return this.props.data.length;
       case "FAVORITES":
         return this.props.noOfFavs;
     }
-      console.log(this.props);
-      return 0;
   }
 
   render() {
