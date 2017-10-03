@@ -12,6 +12,13 @@ import ContactsList from './ContactsList';
 
 class Contacts extends React.Component {
 
+    _onChange = (e) => {if (e.target.value)
+      this.props.actions.inputSearchParam(e.target.value)
+      else {
+        this.props.actions.inputSearchParam('');
+        this.props.actions.filterSearchResult('');
+      }};
+
   render() {
 
     return (
@@ -30,14 +37,31 @@ class Contacts extends React.Component {
                 type="text"
                 placeholder="Phonenumber"
                 value={this.props.input.phonenumber}
-                onChange={(e) => this.props.actions.inputPhonenumber(e.target.value)}/>
+                onChange={(e) => this.props.actions.inputPhonenumber(e.target.value)} />
               <InputGroupButton>
                 <Button
-                  disabled={this.props.input.name.length < 2 || this.props.input.phonenumber.length < 2}
+                  disabled={this.props.input.name.length < 2 || this.props.input.phonenumber.length < 2 || !new RegExp(/^\d+$/).test(this.props.input.phonenumber)}
                   color="success"
                   onClick={() => {
                    this.props.actions.add(this.props.data.length ? this.props.data[this.props.data.length-1].id+1 : 0, this.props.input.name, this.props.input.phonenumber);
                   }}>Add</Button>
+              </InputGroupButton>
+            </InputGroup>
+
+            <br />
+
+            <InputGroup>
+              <Input
+                ref="searchParam"
+                type="text"
+                placeholder="Search"
+                value={this.props.searchParam}
+                onChange={(e) => this._onChange(e)}/>
+              <InputGroupButton>
+                <Button
+                  disabled={this.props.searchParam <= 0}
+                  color="success"
+                  onClick={() => this.props.actions.filterSearchResult(this.props.searchParam)}>Search</Button>
               </InputGroupButton>
             </InputGroup>
           </Col>
@@ -68,7 +92,10 @@ const mapStateToProps = (state) => {
     data: state.contacts.data,
     noOfFavs: state.contacts.favorites.length,
     input: state.contacts.input,
-    activeList: state.contacts.activeList
+    activeList: state.contacts.activeList,
+    searchParam: state.contacts.searchParam,
+    searchedData: state.contacts.searchedData,
+    searched: state.contacts.searched
 	};
 };
 

@@ -32,7 +32,10 @@ export const initialState = {
     activeObject: new Contact()
   },
   favorites: initialFavoriteContactsData(),
-  activeList: ListTypes.ALL
+  activeList: ListTypes.ALL,
+  searchParam: "",
+  searchedData: null,
+  searched: false
 };
 
 export default (state = initialState, action) => {
@@ -125,6 +128,11 @@ const manipulateData = (state, action) => {
       ...state,
       input: { ...state.input, phonenumber: action.payload.value }
     };
+    case types.INPUT_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
+    };
     case types.CONTACTS_TOGGLE_SORT:
       let sortDirection = state.sorting.column === action.payload ? !state.sorting.asc : true;
         return {
@@ -164,9 +172,42 @@ const manipulateData = (state, action) => {
           ...state,
           activeList: action.payload
         };
+      case types.FILTER_SEARCH_RESULT:
+
+        return action.payload.length ? {
+          ...state,
+          searchedData: filterSearchResult(state.data, action.payload),
+          searched: true
+        } : {
+          ...state,
+          searched: false
+        };
     default:
       return state;
 
   // eslint-disable-next-line
   };
-}
+
+};
+
+const dataSort = (data, asc, column) => {
+  let sortedData = [];
+
+  switch (column){
+    case SortColumns.PHONENUMBER:
+      sortedData = data.sort((a, b) => { return a.phonenumber < b.phonenumber });
+      break;
+    case SortColumns.NAME:
+      sortedData = data.sort((a, b) => { return a.name.toLowerCase() < b.name.toLowerCase() });
+      break;
+    case SortColumns.ID:
+    default:
+      sortedData = data.sort((a, b) => { return a.id - b.id; });
+      break;
+  }
+
+  return asc ? sortedData : sortedData.reverse();
+};
+
+const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
+
