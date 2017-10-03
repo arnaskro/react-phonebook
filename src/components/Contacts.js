@@ -12,15 +12,6 @@ import ContactsList from './ContactsList';
 
 class Contacts extends React.Component {
 
-  _getNoOfContacts() {
-    switch(this.props.activeList) {
-      case "ALL":
-        return this.props.data.length;
-      case "FAVORITES":
-        return this.props.noOfFavs + " favourite";
-    }
-  }
-
   render() {
 
     return (
@@ -45,7 +36,7 @@ class Contacts extends React.Component {
                   disabled={this.props.input.name.length < 2 || this.props.input.phonenumber.length < 2}
                   color="success"
                   onClick={() => {
-                   this.props.actions.add(this.props.data.length, this.props.input.name, this.props.input.phonenumber);
+                   this.props.actions.add(this.props.data[this.props.data.length-1].id+1, this.props.input.name, this.props.input.phonenumber);
                   }}>Add</Button>
               </InputGroupButton>
             </InputGroup>
@@ -56,7 +47,7 @@ class Contacts extends React.Component {
         </Row>
         <Row>
           <Col xs="12" md="6">
-            <p className="text-muted">You have <b>{this._getNoOfContacts()}</b> contact(s).</p>
+            <p className="text-muted">You have <b>{this.props.activeList === "ALL" ? this.props.data.length : this.props.noOfFavs + " favourite"}</b> contact(s).</p>
           </Col>
           <Col xs="12" md="6">
             <ButtonGroup size="sm" className="float-right">
@@ -75,7 +66,7 @@ class Contacts extends React.Component {
 const mapStateToProps = (state) => {
 	return {
     data: state.contacts.data,
-    noOfFavs: state.contacts.noOfFavs,
+    noOfFavs: state.contacts.favorites.length,
     input: state.contacts.input,
     activeList: state.contacts.activeList
 	};

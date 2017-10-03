@@ -25,7 +25,7 @@ class ContactsList extends React.Component {
       return data.map((x, i) => <ContactsListItem
         key={i}
         data={x}
-        editFunction={() => this.props.actions.toggleModal(x.id)}
+        editFunction={() => {console.log(x); this.props.actions.toggleModal(x.id)}}
         favoriteFunction={() => this.props.actions.toggleFavorite(x.id)}
         isFavorite={this.props.favorites.filter(y => y.contactId === x.id).length > 0}
       />)
@@ -37,7 +37,7 @@ class ContactsList extends React.Component {
   render() {
 
     let data = this.props.data;
-    const mappedFavorites = this.props.favorites.map(x => x.contactId);
+    const mappedFavorites = this.props.favorites.map(y => y.contactId);
 
     switch (this.props.activeList) {
       case ListTypes.FAVORITES:
