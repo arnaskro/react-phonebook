@@ -5,6 +5,7 @@ import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ContactsListItem } from './ContactsListItem';
+import {ListTypes} from '../actions/ContactsActions';
 
 import { Table } from 'reactstrap';
 
@@ -19,20 +20,45 @@ class ContactsList extends React.Component {
       return <FontAwesome name={this.props.sorting.asc ? 'sort-asc' : 'sort-desc'} />;
   }
 
+  renderRows(data) {
+    if (data.length > 0) {
+      return data.map((x, i) => <ContactsListItem 
+        key={i}
+        data={x}
+        editFunction={() => this.props.actions.toggleModal(x.id)}
+        favoriteFunction={() => this.props.actions.toggleFavorite(x.id)}
+        isFavorite={this.props.favorites.filter(y => y.contactId === x.id).length > 0}
+      />)
+    } else {
+      return <tr><td colSpan={5} className="text-center">There are no contacts in this list!</td></tr>
+    }
+  }
+
   render() {
+    
+    let data = this.props.data;
+    const mappedFavorites = this.props.favorites.map(x => x.contactId);
+
+    switch (this.props.activeList) {
+      case ListTypes.FAVORITES:
+        data = data.filter(x => mappedFavorites.includes(x.id));
+        break;
+      default: break;
+    }
 
     return (
 
-      <Table hover>
+      <Table bordered className="thead-inverse">
         <thead>
           <tr>
             <th onClick={() => this._sort(SortColumns.ID)}>ID {this._sortHelper(SortColumns.ID)}</th>
             <th onClick={() => this._sort(SortColumns.NAME)}>Name {this._sortHelper(SortColumns.NAME)}</th>
             <th onClick={() => this._sort(SortColumns.PHONENUMBER)}>Phonenumber {this._sortHelper(SortColumns.PHONENUMBER)}</th>
+            <th colSpan={2} className="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {this.props.data.map((x, i) => <ContactsListItem onClick={() => this.props.actions.toggleModal(x.id)} data={x} key={i}/> )}
+          {this.renderRows(data)}
         </tbody>
       </Table>
 
@@ -44,7 +70,9 @@ const mapStateToProps = (state) => {
   return {
     data: state.contacts.data,
     sorting: state.contacts.sorting,
-    modal: state.contacts.modal
+    modal: state.contacts.modal,
+    favorites: state.contacts.favorites,
+    activeList: state.contacts.activeList
   };
 };
 

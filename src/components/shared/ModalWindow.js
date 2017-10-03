@@ -4,54 +4,63 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, InputGroup, InputGroupButton } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, InputGroup } from 'reactstrap';
 
 class CModalWindow extends React.Component {
 
+  toggle = () => this.props.actions.toggleModal()
+
+  toggleNested =  () => this.props.actions.toggleNestedModal({'isNestedOpened' : !this.props.isNestedOpened, 'objectId' : this.props.activeId})
+
+  deleteContact = () => this.props.actions.remove(this.props.activeId)
+
+  renderModalBody() {
+    return (
+    <ModalBody>
+      <InputGroup>
+        <Input
+          ref="name"
+          type="text"
+          placeholder="Name"
+          value={this.props.activeObject.name}
+          onChange={(e) => this.props.actions.inputName(e.target.value, true)}/>
+        <Input
+          type="text"
+          placeholder="Phonenumber"
+          value={this.props.activeObject.phonenumber}
+          onChange={(e) => this.props.actions.inputPhonenumber(e.target.value, true)}/>
+      </InputGroup>
+      <Modal isOpen={this.props.isNestedOpened} toggle={this.toggleNested}>
+        <ModalHeader>Delete contact</ModalHeader>
+        <ModalBody>Are you sure?</ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.deleteContact}>Delete</Button>{' '}
+          <Button color="secondary" onClick={this.toggleNested}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    </ModalBody>);
+  }
+
+  renderModalFooter() {
+    return (
+      <ModalFooter>
+        <Button color="danger" onClick={this.toggleNested} className="mr-auto">Delete contact</Button>
+        <Button disabled={this.props.activeObject.name.length < 2 || this.props.activeObject.phonenumber.length < 2} color="primary"
+          onClick={() => {
+        this.props.actions.update(this.props.activeId, this.props.activeObject);
+        }}>Save changes</Button>{' '}
+        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+      </ModalFooter>
+    );
+  }
+
   render() {
 
-    const toggle = () => this.props.actions.toggleModal();
-
-    const toggleNested = () => this.props.actions.toggleNestedModal({'isNestedOpened' : !this.props.isNestedOpened, 'objectId' : this.props.activeId});
-
-    const deleteContact = () => this.props.actions.remove(this.props.activeId);
-
     return (
-      <Modal isOpen={this.props.isOpen} toggle={toggle} className={this.props.className}>
-        <ModalHeader toggle={toggle}>Edit contact</ModalHeader>
-        <ModalBody>
-          <InputGroup>
-            <Input
-              ref="name"
-              type="text"
-              placeholder="Name"
-              value={this.props.activeObject.name}
-              onChange={(e) => this.props.actions.inputName(e.target.value, true)}/>
-            <Input
-              type="text"
-              placeholder="Phonenumber"
-              value={this.props.activeObject.phonenumber}
-              onChange={(e) => this.props.actions.inputPhonenumber(e.target.value, true)}/>
-          </InputGroup>
-          <br />
-          <Button color="danger" onClick={toggleNested}>Delete contact</Button>
-            <Modal isOpen={this.props.isNestedOpened} toggle={toggleNested}>
-              <ModalHeader>Delete contact</ModalHeader>
-              <ModalBody>Are you sure?</ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={deleteContact}>Delete</Button>{' '}
-                <Button color="secondary" onClick={toggleNested}>Cancel</Button>
-              </ModalFooter>
-            </Modal>
-        </ModalBody>
-        <ModalFooter>
-
-          <Button disabled={this.props.activeObject.name.length < 2 || this.props.activeObject.phonenumber.length < 2} color="primary"
-            onClick={() => {
-           this.props.actions.update(this.props.activeId, this.props.activeObject);
-          }}>Save changes</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
-        </ModalFooter>
+      <Modal isOpen={this.props.isOpen} toggle={this.toggle} className={this.props.className}>
+        <ModalHeader toggle={this.toggle}>Edit contact</ModalHeader>
+        {this.props.isOpen ? this.renderModalBody() : ""}
+        {this.props.isOpen ? this.renderModalFooter() : ""}
       </Modal>
     );
   };

@@ -1,19 +1,18 @@
-import { types, SortColumns } from '../actions/ContactsActions';
+import { types, SortColumns, ListTypes } from '../actions/ContactsActions';
+import Contact from '../models/Contact';
+import FavoriteContact from '../models/FavoriteContact';
 
 export const initialState = {
   data: [
-    {id: 0, name: "Johny", phonenumber: 88228844},
-    {id: 1, name: "Bob", phonenumber: 11223344},
-    {id: 2, name: "Elisa", phonenumber: 99887766},
-    {id: 3, name: "Bart", phonenumber: 22332233}
+    new Contact(0, "Johny", 88228844),
+    new Contact(1, "Bob", 11223344),
+    new Contact(2, "Elisa", 99887766),
+    new Contact(3, "Bart", 22332233)
   ],
   fetching: false,
   fetched: false,
   error: null,
-  input: {
-    name: "",
-    phonenumber: ""
-  },
+  input: new Contact(),
   sorting: {
     asc: true,
     column: SortColumns.ID
@@ -22,9 +21,12 @@ export const initialState = {
     isOpen: false,
     isNestedOpened: false,
     activeId: null,
-    activeObject: { name: '', phonenumber: ''}
-  }
-
+    activeObject: new Contact()
+  },
+  favorites: [
+    new FavoriteContact(2)
+  ],
+  activeList: ListTypes.ALL
 };
 
 export default (state = initialState, action) => {
@@ -46,7 +48,7 @@ export default (state = initialState, action) => {
           isOpen: false,
           isNestedOpened: false,
           activeId: null,
-          activeObject: { name: '', phonenumber: ''}
+          activeObject: new Contact()
         }
         });
     case types.UPDATE_CONTACT:
@@ -57,7 +59,7 @@ export default (state = initialState, action) => {
           isOpen : false,
           isNestedOpened : false,
           activeId : null,
-          activeObject : { name: '', phonenumber: ''}
+          activeObject : new Contact()
         }
       };
     case types.INPUT_CONTACT_NAME:
@@ -105,7 +107,7 @@ export default (state = initialState, action) => {
           ...state.modal,
           isOpen: action.payload !== null,
           activeId: action.payload,
-          activeObject: action.payload >=0 ? state.data[action.payload] : { name: '', phonenumber: ''}
+          activeObject: action.payload !== null ? state.data.filter(x => x.id === action.payload)[0] : new Contact()
 
         }
       };
@@ -116,6 +118,16 @@ export default (state = initialState, action) => {
             ...state.modal,
             isNestedOpened: action.payload.isNestedOpened
           }
+        };
+      case types.TOGGLE_FAVORITE_CONTACT:
+        return {
+          ...state,
+          favorites: state.favorites.filter(x => x.contactId === action.payload).length > 0 ? state.favorites.filter(x => x.contactId !== action.payload) : [...state.favorites, new FavoriteContact(action.payload)]
+        };
+      case types.TOGGLE_LIST_TYPE:
+        return {
+          ...state,
+          activeList: action.payload
         };
     default:
       return state;
