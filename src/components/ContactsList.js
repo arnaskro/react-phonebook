@@ -36,8 +36,7 @@ class ContactsList extends React.Component {
 
   render() {
 
-    {console.log(this.props)}
-    let data = this.props.data;
+    let data = this.props.searched ? this.props.searchedData : this.props.data;
     const mappedFavorites = this.props.favorites.map(y => y.contactId);
 
     switch (this.props.activeList) {
@@ -74,7 +73,8 @@ const mapStateToProps = (state) => {
     modal: state.contacts.modal,
     favorites: state.contacts.favorites,
     activeList: state.contacts.activeList,
-    searchedData: state.contacts.searchedData
+    searchedData: state.contacts.searchedData,
+    searched: state.contacts.searched
   };
 };
 

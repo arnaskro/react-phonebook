@@ -28,7 +28,8 @@ export const initialState = {
   ],
   activeList: ListTypes.ALL,
   searchParam: "",
-  searchedData: null
+  searchedData: null,
+  searched: false
 };
 
 export default (state = initialState, action) => {
@@ -138,9 +139,14 @@ export default (state = initialState, action) => {
           activeList: action.payload
         };
       case types.FILTER_SEARCH_RESULT:
-        return {
+
+        return action.payload.length ? {
           ...state,
-          searchedData: filterSearchResult(state.data, action.payload)
+          searchedData: filterSearchResult(state.data, action.payload),
+          searched: true
+        } : {
+          ...state,
+          searched: false
         };
     default:
       return state;
@@ -169,10 +175,4 @@ const dataSort = (data, asc, column) => {
   return asc ? sortedData : sortedData.reverse();
 };
 
-const filterSearchResult = (data, searchParam) => {
-  console.log("SEARCH PARAM", searchParam);
-  if(searchParam.length === 0) {
-    return data;
-  }
-  return data.filter(x => x.name.indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
-};
+const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );

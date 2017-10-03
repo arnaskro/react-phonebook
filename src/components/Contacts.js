@@ -12,6 +12,13 @@ import ContactsList from './ContactsList';
 
 class Contacts extends React.Component {
 
+    _onChange = (e) => {if (e.target.value)
+      this.props.actions.inputSearchParam(e.target.value)
+      else {
+        this.props.actions.inputSearchParam('');
+        this.props.actions.filterSearchResult('');
+      }};
+
   render() {
 
     return (
@@ -49,7 +56,7 @@ class Contacts extends React.Component {
                 type="text"
                 placeholder="Search"
                 value={this.props.searchParam}
-                onChange={(e) => this.props.actions.inputSearchParam(e.target.value)} />
+                onChange={(e) => this._onChange(e)}/>
               <InputGroupButton>
                 <Button
                   disabled={this.props.searchParam <= 0}
@@ -86,7 +93,9 @@ const mapStateToProps = (state) => {
     noOfFavs: state.contacts.favorites.length,
     input: state.contacts.input,
     activeList: state.contacts.activeList,
-    searchParam: state.contacts.searchParam
+    searchParam: state.contacts.searchParam,
+    searchedData: state.contacts.searchedData,
+    searched: state.contacts.searched
 	};
 };
 
