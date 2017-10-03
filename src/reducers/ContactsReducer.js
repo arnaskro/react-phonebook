@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
       };
     case types.REMOVE_CONTACT:
     return Object.assign({}, state, {
-        data: state.data.filter((x,i) => i !== action.payload),
+        data: state.data.filter((x,i) => x.id !== action.payload),
         favorites: state.favorites.filter(y => y.contactId !== action.payload),
         modal: {
           isOpen: false,
