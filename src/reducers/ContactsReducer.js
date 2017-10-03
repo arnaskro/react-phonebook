@@ -190,24 +190,5 @@ const manipulateData = (state, action) => {
 
 };
 
-const dataSort = (data, asc, column) => {
-  let sortedData = [];
-
-  switch (column){
-    case SortColumns.PHONENUMBER:
-      sortedData = data.sort((a, b) => { return a.phonenumber < b.phonenumber });
-      break;
-    case SortColumns.NAME:
-      sortedData = data.sort((a, b) => { return a.name.toLowerCase() < b.name.toLowerCase() });
-      break;
-    case SortColumns.ID:
-    default:
-      sortedData = data.sort((a, b) => { return a.id - b.id; });
-      break;
-  }
-
-  return asc ? sortedData : sortedData.reverse();
-};
-
 const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
 
