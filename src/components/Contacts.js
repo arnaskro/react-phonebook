@@ -17,7 +17,7 @@ class Contacts extends React.Component {
       case "ALL":
         return this.props.data.length;
       case "FAVORITES":
-        return this.props.noOfFavs;
+        return this.props.noOfFavs + " favourite";
     }
   }
 
