@@ -127,7 +127,8 @@ export default (state = initialState, action) => {
       case types.TOGGLE_LIST_TYPE:
         return {
           ...state,
-          activeList: action.payload
+          activeList: action.payload,
+          noOfFavs: state.favorites.length
         };
     default:
       return state;
