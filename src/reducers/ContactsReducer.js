@@ -26,7 +26,9 @@ export const initialState = {
   favorites: [
     new FavoriteContact(2)
   ],
-  activeList: ListTypes.ALL
+  activeList: ListTypes.ALL,
+  searchParam: "",
+  searchedData: null
 };
 
 export default (state = initialState, action) => {
@@ -91,6 +93,11 @@ export default (state = initialState, action) => {
       ...state,
       input: { ...state.input, phonenumber: action.payload.value }
     };
+    case types.INPUT_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
+    };
     case types.CONTACTS_TOGGLE_SORT:
       let sortDirection = state.sorting.column === action.payload ? !state.sorting.asc : true;
         return {
@@ -130,6 +137,11 @@ export default (state = initialState, action) => {
           ...state,
           activeList: action.payload
         };
+      case types.FILTER_SEARCH_RESULT:
+        return {
+          ...state,
+          searchedData: filterSearchResult(state.data, action.payload)
+        };
     default:
       return state;
 
@@ -155,4 +167,12 @@ const dataSort = (data, asc, column) => {
   }
 
   return asc ? sortedData : sortedData.reverse();
+};
+
+const filterSearchResult = (data, searchParam) => {
+  console.log("SEARCH PARAM", searchParam);
+  if(searchParam.length === 0) {
+    return data;
+  }
+  return data.filter(x => x.name.indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
 };

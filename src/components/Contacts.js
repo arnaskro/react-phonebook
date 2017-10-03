@@ -40,6 +40,23 @@ class Contacts extends React.Component {
                   }}>Add</Button>
               </InputGroupButton>
             </InputGroup>
+
+            <br />
+
+            <InputGroup>
+              <Input
+                ref="searchParam"
+                type="text"
+                placeholder="Search"
+                value={this.props.searchParam}
+                onChange={(e) => this.props.actions.inputSearchParam(e.target.value)} />
+              <InputGroupButton>
+                <Button
+                  disabled={this.props.searchParam <= 0}
+                  color="success"
+                  onClick={() => this.props.actions.filterSearchResult(this.props.searchParam)}>Search</Button>
+              </InputGroupButton>
+            </InputGroup>
           </Col>
           <Col xs="12">
             <ContactsList />
@@ -68,7 +85,8 @@ const mapStateToProps = (state) => {
     data: state.contacts.data,
     noOfFavs: state.contacts.favorites.length,
     input: state.contacts.input,
-    activeList: state.contacts.activeList
+    activeList: state.contacts.activeList,
+    searchParam: state.contacts.searchParam
 	};
 };
 

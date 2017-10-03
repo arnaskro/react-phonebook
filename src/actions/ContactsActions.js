@@ -4,11 +4,13 @@ export const types = {
   UPDATE_CONTACT: 'UPDATE_CONTACT',
   INPUT_CONTACT_NAME: 'INPUT_CONTACT_NAME',
   INPUT_CONTACT_PHONENUMBER: 'INPUT_CONTACT_PHONENUMBER',
+  INPUT_SEARCH_PARAM: 'INPUT_SEARCH_PARAM',
   CONTACTS_TOGGLE_SORT: 'CONTACTS_TOGGLE_SORT',
   TOGGLE_CONTACT_MODAL_STATE : 'TOGGLE_CONTACT_MODAL_STATE',
   TOGGLE_CONTACT_NESTED_MODAL_STATE : 'TOGGLE_CONTACT_NESTED_MODAL_STATE',
   TOGGLE_FAVORITE_CONTACT: 'TOGGLE_FAVORITE_CONTACT',
-  TOGGLE_LIST_TYPE: 'TOGGLE_LIST_TYPE'
+  TOGGLE_LIST_TYPE: 'TOGGLE_LIST_TYPE',
+  FILTER_SEARCH_RESULT: 'FILTER_SEARCH_RESULT'
 };
 
 export const SortColumns = {
@@ -86,6 +88,15 @@ export const inputPhonenumber = (value = "", type = false) => {
   };
 };
 
+export const inputSearchParam = (value = "") => {
+  return function (dispatch) {
+    dispatch({
+      type: types.INPUT_SEARCH_PARAM,
+      payload: value
+    });
+  };
+};
+
 export const toggleModal = (objectId = null) => {
   return function (dispatch) {
     dispatch({
@@ -121,6 +132,15 @@ export const toggleListType = (listType = ListTypes.ALL) => {
       dispatch({
           type: types.TOGGLE_LIST_TYPE,
           payload: listType
+      });
+  };
+};
+
+export const filterSearchResult = (value = "") => {
+  return function (dispatch) {
+      dispatch({
+          type: types.FILTER_SEARCH_RESULT,
+          payload: value
       });
   };
 };

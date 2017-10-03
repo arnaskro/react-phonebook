@@ -5,7 +5,7 @@ import * as actions from '../actions/ContactsActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ContactsListItem } from './ContactsListItem';
-import {ListTypes} from '../actions/ContactsActions';
+import { ListTypes } from '../actions/ContactsActions';
 
 import { Table } from 'reactstrap';
 
@@ -36,6 +36,7 @@ class ContactsList extends React.Component {
 
   render() {
 
+    {console.log(this.props)}
     let data = this.props.data;
     const mappedFavorites = this.props.favorites.map(y => y.contactId);
 
@@ -72,7 +73,8 @@ const mapStateToProps = (state) => {
     sorting: state.contacts.sorting,
     modal: state.contacts.modal,
     favorites: state.contacts.favorites,
-    activeList: state.contacts.activeList
+    activeList: state.contacts.activeList,
+    searchedData: state.contacts.searchedData
   };
 };
 
