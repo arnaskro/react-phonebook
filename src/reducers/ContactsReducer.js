@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
     case types.ADD_CONTACT:
       return {
         ...state,
-        data: dataSort([...state.data, action.payload], state.sorting.asc, state.sorting.column),
+        data: dataSort([...state.data, new Contact(action.payload.id,action.payload.name,action.payload.phonenumber)], state.sorting.asc, state.sorting.column),
         input: {
           name: "",
           phonenumber: ""
@@ -43,7 +43,8 @@ export default (state = initialState, action) => {
       };
     case types.REMOVE_CONTACT:
     return Object.assign({}, state, {
-        data: state.data.filter((x,i) => i !== action.payload),
+        data: state.data.filter((x,i) => x.id !== action.payload),
+        favorites: state.favorites.filter(y => y.contactId !== action.payload),
         modal: {
           isOpen: false,
           isNestedOpened: false,
@@ -122,7 +123,7 @@ export default (state = initialState, action) => {
       case types.TOGGLE_FAVORITE_CONTACT:
         return {
           ...state,
-          favorites: state.favorites.filter(x => x.contactId === action.payload).length > 0 ? state.favorites.filter(x => x.contactId !== action.payload) : [...state.favorites, new FavoriteContact(action.payload)]
+          favorites: state.favorites.filter(y => y.contactId === action.payload).length > 0 ? state.favorites.filter(y => y.contactId !== action.payload) : [...state.favorites, new FavoriteContact(action.payload)]
         };
       case types.TOGGLE_LIST_TYPE:
         return {
