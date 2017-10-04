@@ -79,9 +79,11 @@ const manipulateData = (state, action) => {
         }
       };
     case types.REMOVE_CONTACT:
+    let filteredData = state.data.filter((x,i) => x.id !== action.payload);
     return Object.assign({}, state, {
-        data: state.data.filter((x,i) => x.id !== action.payload),
+        data: filteredData,
         favorites: state.favorites.filter(y => y.contactId !== action.payload),
+        searchedData: filterSearchResult(filteredData, state.searchParam),
         modal: {
           isOpen: false,
           isNestedOpened: false,
@@ -190,5 +192,4 @@ const manipulateData = (state, action) => {
 
 };
 
-const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
-
+const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam.toLowerCase()) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
