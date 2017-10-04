@@ -190,5 +190,4 @@ const manipulateData = (state, action) => {
 
 };
 
-const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
-
+const filterSearchResult = (data, searchParam) =>  data.filter(x => x.name.toLowerCase().indexOf(searchParam.toLowerCase()) !== -1 || (`${x.phonenumber}`).indexOf(searchParam) !== -1 );
