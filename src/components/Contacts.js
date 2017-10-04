@@ -58,12 +58,6 @@ class Contacts extends React.Component {
                 placeholder="Search"
                 value={this.props.searchParam}
                 onChange={(e) => this._onChange(e)}/>
-              <InputGroupButton>
-                <Button
-                  disabled={this.props.searchParam <= 0}
-                  color="success"
-                  onClick={() => this.props.actions.filterSearchResult(this.props.searchParam)}>Search</Button>
-              </InputGroupButton>
             </InputGroup>
           </Col>
           <Col xs="12">
