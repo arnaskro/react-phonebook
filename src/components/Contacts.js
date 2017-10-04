@@ -12,9 +12,10 @@ import ContactsList from './ContactsList';
 
 class Contacts extends React.Component {
 
-    _onChange = (e) => {if (e.target.value)
+    _onChange = (e) => {if (e.target.value) {
       this.props.actions.inputSearchParam(e.target.value)
-      else {
+      this.props.actions.filterSearchResult(e.target.value);
+      } else {
         this.props.actions.inputSearchParam('');
         this.props.actions.filterSearchResult('');
       }};
