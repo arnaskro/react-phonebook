@@ -79,9 +79,11 @@ const manipulateData = (state, action) => {
         }
       };
     case types.REMOVE_CONTACT:
+    let filteredData = state.data.filter((x,i) => x.id !== action.payload);
     return Object.assign({}, state, {
-        data: state.data.filter((x,i) => x.id !== action.payload),
+        data: filteredData,
         favorites: state.favorites.filter(y => y.contactId !== action.payload),
+        searchedData: filterSearchResult(filteredData, state.searchParam),
         modal: {
           isOpen: false,
           isNestedOpened: false,
