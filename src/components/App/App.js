@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Contacts from '../Contacts';
+import FontAwesome from 'react-fontawesome';
 
 import { Container } from 'reactstrap';
 
@@ -16,6 +17,9 @@ class App extends Component {
           <Contacts />
         </Container>
 
+        <footer className="text-center">
+          <a href="https://github.com/arnaskro/react-phonebook" title="GitHub"><FontAwesome name="github" size="2x"/></a>
+        </footer>
       </div>
     );
   }

@@ -34,3 +34,16 @@ table {
 td.action:hover {
   background-color: rgba(0, 0, 0, 0.075);
 }
+
+footer {
+  margin: 40px 0;
+}
+
+footer a {
+  opacity: 0.7;
+  color: #222 !important;
+}
+
+footer a:hover {
+  opacity: 1;
+}
