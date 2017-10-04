@@ -12,13 +12,29 @@ import ContactsList from './ContactsList';
 
 class Contacts extends React.Component {
 
-    _onChange = (e) => {if (e.target.value) {
-      this.props.actions.inputSearchParam(e.target.value)
-      this.props.actions.filterSearchResult(e.target.value);
+    _onChange = (e) => {
+
+      if (e.target.value) {
+        this.props.actions.inputSearchParam(e.target.value)
+        this.props.actions.filterSearchResult(e.target.value);
       } else {
         this.props.actions.inputSearchParam('');
         this.props.actions.filterSearchResult('');
       }};
+
+    _totalContacts = () => {
+      const mappedFavorites = this.props.favorites.map(y => y.contactId);
+
+      let sum = this.props.searched ? //Is the data regular or searched
+      (this.props.activeList === "ALL" // Is the view showing all data or just favorites
+        ? this.props.searchedData.reduce((sum, value) => { return sum + 1; }, 0) // All searched data
+          : this.props.searchedData.filter(x => mappedFavorites.includes(x.id)).reduce((sum, value) => { return sum+1; }, 0) + " favourite") // Favorites searched data
+            : (this.props.activeList === "ALL" // Is the view showing all data or just favorites
+              ? this.props.data.length // All searched data
+                : this.props.favorites.reduce((sum, value) => { return sum + 1; }, 0) + " favourite") // Favorites data
+
+      return sum;
+    };
 
   render() {
 
@@ -66,7 +82,7 @@ class Contacts extends React.Component {
         </Row>
         <Row>
           <Col xs="12" md="6">
-            <p className="text-muted">You have <b>{this.props.activeList === "ALL" ? this.props.data.length : this.props.noOfFavs + " favourite"}</b> contact(s).</p>
+            <p className="text-muted"> You have <b>{this._totalContacts()}</b> contact(s).</p>
           </Col>
           <Col xs="12" md="6">
             <ButtonGroup size="sm" className="float-right">
@@ -85,7 +101,7 @@ class Contacts extends React.Component {
 const mapStateToProps = (state) => {
 	return {
     data: state.contacts.data,
-    noOfFavs: state.contacts.favorites.length,
+    favorites: state.contacts.favorites,
     input: state.contacts.input,
     activeList: state.contacts.activeList,
     searchParam: state.contacts.searchParam,
