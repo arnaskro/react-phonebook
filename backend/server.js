@@ -23,7 +23,6 @@ connection.connect(function(err) {
     console.error('~ Database connection failed: ' + err.stack);
     return;
   }
-
   console.log('~ Connected to database.');
 });
 
@@ -35,6 +34,7 @@ app.get('/', (req, res) => {
 
 // [GET] contacts
 app.get('/contacts', (req, res) => {
+
   console.log("[GET] contacts")
   connection.query('SELECT * FROM Contacts', function (error, results, fields) {
     res.send(results);
@@ -42,6 +42,17 @@ app.get('/contacts', (req, res) => {
     // Handle error after the release.
     if (error) throw error;
   });
+});
+
+app.put('/contacts', (req, res) => {
+  console.log('[PUT] contact');
+
+  connection.query(`UPDATE Contacts SET Name = '${req.body.name}', TelNo = '${req.body.tel_no}', isFavorite = '${req.body.isFavorite}' WHERE ID = ${req.body.id}`, (error, results, fields) => {
+      res.send(results);
+      
+      if (error) throw error;
+  });
+
 });
 
 // [POST] contact
