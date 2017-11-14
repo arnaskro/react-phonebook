@@ -1,5 +1,26 @@
 const express = require('express')
 const app = express()
+const mysql = require('mysql');
+
+// Database
+const connection = mysql.createConnection({
+  host     : "reactpb.c3xcnkqal7bl.eu-central-1.rds.amazonaws.com",
+  user     : "reactpb",
+  password : "reactpb2018",
+  port     : "3306",
+  database : "reactpb"
+});
+
+// Start the database connection
+connection.connect(function(err) {
+  if (err) {
+    console.error('~ Database connection failed: ' + err.stack);
+    return;
+  }
+
+  console.log('~ Connected to database.');
+});
+
 
 // Routes and handlers
 app.get('/', (req, res) => {
@@ -8,3 +29,5 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(8080, () => console.log('~ React-Phonebook server app listening on port 8080!'))
+
+// connection.end(); // End connection
