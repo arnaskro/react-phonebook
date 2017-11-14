@@ -27,6 +27,17 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
+// [GET] contacts
+app.get('/contacts', (req, res) => {
+  console.log("[GET] contacts")
+  connection.query('SELECT * FROM Contacts', function (error, results, fields) {
+    res.send(results);
+
+    // Handle error after the release.
+    if (error) throw error;
+  });
+});
+
 // Start the server
 app.listen(8080, () => console.log('~ React-Phonebook server app listening on port 8080!'))
 
