@@ -73,11 +73,15 @@ export const add = (id, name, phonenumber) => {
 
 export const remove = (id = -1) => {
   return function (dispatch) {
-
-    dispatch({
-      type: types.REMOVE_CONTACT,
-      payload: id
-    });
+    
+    axios.delete(API.DeleteContactReqest())
+      .then(x => {
+        dispatch({
+          type: types.REMOVE_CONTACT,
+          payload: id
+        });
+      })
+      .catch(err => console.log(err.data))
   };
 };
 export const update = (id = -1, activeObject = {}) => {
