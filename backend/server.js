@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const mysql = require('mysql');
+
+// Enable cross origin requests
+app.use(cors())
 
 // Database
 const connection = mysql.createConnection({
