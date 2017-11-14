@@ -64,17 +64,22 @@ export const sortByColumn = (column = SortColumns.ID) => {
 
 export const add = (id, name, phonenumber) => {
   return function (dispatch) {
-    dispatch({
-      type: types.ADD_CONTACT,
-      payload: {id: id, name: name, phonenumber: phonenumber}
-    });
+
+    axios.post(API.CreateContactReqest(), { name: name, tel_no: phonenumber })
+      .then(res => {
+        dispatch({
+          type: types.ADD_CONTACT,
+          payload: { id, name, phonenumber }
+        });
+      })
+      .catch(err => console.log(err.data))
   };
 };
 
 export const remove = (id = -1) => {
   return function (dispatch) {
     
-    axios.delete(API.DeleteContactReqest())
+    axios.delete(API.DeleteContactReqest(), { data: {id: id} })
       .then(x => {
         dispatch({
           type: types.REMOVE_CONTACT,
@@ -84,6 +89,7 @@ export const remove = (id = -1) => {
       .catch(err => console.log(err.data))
   };
 };
+
 export const update = (id = -1, activeObject = {}) => {
   return function (dispatch) {
 
