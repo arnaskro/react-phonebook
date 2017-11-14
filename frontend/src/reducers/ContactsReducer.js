@@ -2,21 +2,8 @@ import { types, SortColumns, ListTypes } from '../actions/ContactsActions';
 import Contact from '../models/Contact';
 import FavoriteContact from '../models/FavoriteContact';
 
-const initialContactsData = () => {
-  return JSON.parse(localStorage.getItem('contactsData')) || [
-    new Contact(0, "Johny", 88228844),
-    new Contact(1, "Bob", 11223344),
-    new Contact(2, "Elisa", 99887766),
-    new Contact(3, "Bart", 22332233)
-  ];
-}
-
-const initialFavoriteContactsData = () => {
-  return JSON.parse(localStorage.getItem('favoriteContactsData')) || [];
-}
-
 export const initialState = {
-  data: initialContactsData(),
+  data: [],
   fetching: false,
   fetched: false,
   error: null,
@@ -31,7 +18,7 @@ export const initialState = {
     activeId: null,
     activeObject: new Contact()
   },
-  favorites: initialFavoriteContactsData(),
+  favorites: [],
   activeList: ListTypes.ALL,
   searchParam: "",
   searchedData: null,
@@ -40,10 +27,6 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   let newState = manipulateData(state, action);
-
-  localStorage.setItem('contactsData', JSON.stringify(newState.data));
-  localStorage.setItem('favoriteContactsData', JSON.stringify(newState.favorites));
-
   return newState;
 };
 
@@ -69,6 +52,28 @@ const dataSort = (data, asc, column) => {
 const manipulateData = (state, action) => {
 
   switch (action.type) {
+    case types.GET_CONTACTS_START: 
+      return {
+        ...state,
+        fetching: true, 
+        fetched: false,
+        error: null
+      }
+    case types.GET_CONTACTS_FINISHED: 
+      return {
+        ...state,
+        data: action.payload.map((x) => new Contact(x.ID, x.Name, x.TelNo)),
+        fetching: false, 
+        fetched: true,
+        favorites: action.payload.filter(x => x.isFavorite === 1).map((x) => new FavoriteContact(x.ID))
+      }
+    case types.GET_CONTACTS_ERROR: 
+      return {
+        ...state,
+        fetching: false, 
+        fetched: false,
+        error: action.payload
+      }
     case types.ADD_CONTACT:
       return {
         ...state,

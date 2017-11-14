@@ -1,3 +1,6 @@
+import axios from 'axios';
+import * as API from '../api';
+
 export const types = {
   ADD_CONTACT: 'ADD_CONTACT',
   REMOVE_CONTACT: 'REMOVE_CONTACT',
@@ -10,7 +13,11 @@ export const types = {
   TOGGLE_CONTACT_NESTED_MODAL_STATE : 'TOGGLE_CONTACT_NESTED_MODAL_STATE',
   TOGGLE_FAVORITE_CONTACT: 'TOGGLE_FAVORITE_CONTACT',
   TOGGLE_LIST_TYPE: 'TOGGLE_LIST_TYPE',
-  FILTER_SEARCH_RESULT: 'FILTER_SEARCH_RESULT'
+  FILTER_SEARCH_RESULT: 'FILTER_SEARCH_RESULT',
+
+  GET_CONTACTS_START: 'GET_CONTACTS_START',
+  GET_CONTACTS_FINISHED: 'GET_CONTACTS_FINISHED',
+  GET_CONTACTS_ERROR: 'GET_CONTACTS_ERROR'
 };
 
 export const SortColumns = {
@@ -23,6 +30,28 @@ export const ListTypes = {
   ALL: "ALL",
   FAVORITES: "FAVORITES"
 };
+
+export const getContacts = () => {
+  return function (dispatch) {
+    dispatch({
+      type: types.GET_CONTACTS_START
+    });
+
+    axios.get(API.GetContactsRequest())
+      .then(res => {
+        dispatch({
+          type: types.GET_CONTACTS_FINISHED,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: types.GET_CONTACTS_ERROR,
+          payload: err.data
+        });
+      })
+  }
+}
 
 export const sortByColumn = (column = SortColumns.ID) => {
   return function (dispatch) {

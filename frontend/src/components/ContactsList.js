@@ -8,6 +8,7 @@ import { ContactsListItem } from './ContactsListItem';
 import { ListTypes } from '../actions/ContactsActions';
 
 import { Table } from 'reactstrap';
+import Spinner from './Spinner';
 
 class ContactsList extends React.Component {
 
@@ -34,7 +35,7 @@ class ContactsList extends React.Component {
     }
   }
 
-  render() {
+  fullTable() {
 
     let data = this.props.searched ? this.props.searchedData : this.props.data;
     const mappedFavorites = this.props.favorites.map(y => y.contactId);
@@ -63,7 +64,18 @@ class ContactsList extends React.Component {
       </Table>
 
     );
-  };
+  }
+
+  componentWillMount() {
+    if (!this.props.fetching && !this.props.fetched)
+      this.props.actions.getContacts();
+  }
+
+  render() {
+    if (this.props.fetched) return this.fullTable();
+    else if (this.props.error !== null) return <div><h1>There was a problem when making a request to get the contacts. Please refresh the page!</h1><br /> <p>{this.props.error}</p></div>;
+    else return <Spinner />;
+  }
 };
 
 const mapStateToProps = (state) => {
@@ -74,7 +86,11 @@ const mapStateToProps = (state) => {
     favorites: state.contacts.favorites,
     activeList: state.contacts.activeList,
     searchedData: state.contacts.searchedData,
-    searched: state.contacts.searched
+    searched: state.contacts.searched,
+    
+    fetching: state.contacts.fetching, 
+    fetched: state.contacts.fetched,
+    error: state.contacts.error
   };
 };
 
