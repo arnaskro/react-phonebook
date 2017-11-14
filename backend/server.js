@@ -1,6 +1,8 @@
 const express = require('express')
-const app = express()
 const mysql = require('mysql');
+var bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
 
 // Database
 const connection = mysql.createConnection({
@@ -34,6 +36,28 @@ app.get('/contacts', (req, res) => {
     res.send(results);
 
     // Handle error after the release.
+    if (error) throw error;
+  });
+});
+
+// [POST] contact
+
+app.post('/contact', (req, res) => {
+  console.log("[POST] contact ")
+  connection.query(`INSERT INTO Contacts (Name, TelNo) VALUES( '${req.body.name}', '${req.body.tel_no}')`, function (error, results, fields) {
+    res.send(results);
+    console.log("Inserted contact with ID = ", results.insertId);
+
+    if (error) throw error;
+  });
+});
+
+// [DELETE] contact
+app.delete('/contact', (req, res) => {
+  console.log("[DELETE] contact")
+  connection.query(`DELETE FROM Contacts WHERE Id = '${req.body.id}'`, function (error, results, fields) {
+    res.send(results);
+
     if (error) throw error;
   });
 });
