@@ -1,8 +1,12 @@
 const express = require('express')
+const cors = require('cors')
 const mysql = require('mysql');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
+
+// Enable cross origin requests
+app.use(cors())
 
 // Database
 const connection = mysql.createConnection({
