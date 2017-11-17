@@ -47,11 +47,21 @@ app.get('/contacts', (req, res) => {
 app.put('/contacts', (req, res) => {
   console.log('[PUT] contact');
 
-  connection.query(`UPDATE Contacts SET Name = '${req.body.name}', TelNo = '${req.body.tel_no}', isFavorite = '${req.body.isFavorite}' WHERE ID = ${req.body.id}`, (error, results, fields) => {
-      res.send(results);
-      
-      if (error) throw error;
-  });
+  if (typeof req.body.isFavorite !== "undefined")
+    connection.query(`UPDATE Contacts SET isFavorite = '${req.body.isFavorite}' WHERE ID =' ${req.body.id}'`, (error, results, fields) => {
+        res.send(results);
+
+        if (error) throw error;
+    });
+  else if (typeof req.body.name !== "undefined" && typeof req.body.tel_no !== "undefined")
+    connection.query(`UPDATE Contacts SET Name = '${req.body.name}', TelNo = '${req.body.tel_no}' WHERE ID =' ${req.body.id}'`, (error, results, fields) => {
+        res.send(results);
+
+        if (error) throw error;
+    });
+
+  else console.log("Whoops, something went wrong, check the request", req);
+
 
 });
 

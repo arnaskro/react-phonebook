@@ -27,7 +27,7 @@ class ContactsList extends React.Component {
         key={i}
         data={x}
         editFunction={() => this.props.actions.toggleModal(x.id)}
-        favoriteFunction={() => this.props.actions.toggleFavorite(x.id)}
+        favoriteFunction={() => this.props.actions.toggleFavorite(x.id, this.props.favorites.filter(y => y.contactId === x.id)[0] || undefined)}
         isFavorite={this.props.favorites.filter(y => y.contactId === x.id).length > 0}
       />)
     } else {
@@ -87,8 +87,8 @@ const mapStateToProps = (state) => {
     activeList: state.contacts.activeList,
     searchedData: state.contacts.searchedData,
     searched: state.contacts.searched,
-    
-    fetching: state.contacts.fetching, 
+
+    fetching: state.contacts.fetching,
     fetched: state.contacts.fetched,
     error: state.contacts.error
   };

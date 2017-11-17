@@ -52,25 +52,25 @@ const dataSort = (data, asc, column) => {
 const manipulateData = (state, action) => {
 
   switch (action.type) {
-    case types.GET_CONTACTS_START: 
+    case types.GET_CONTACTS_START:
       return {
         ...state,
-        fetching: true, 
+        fetching: true,
         fetched: false,
         error: null
       }
-    case types.GET_CONTACTS_FINISHED: 
+    case types.GET_CONTACTS_FINISHED:
       return {
         ...state,
         data: action.payload.map((x) => new Contact(x.ID, x.Name, x.TelNo)),
-        fetching: false, 
+        fetching: false,
         fetched: true,
         favorites: action.payload.filter(x => x.isFavorite === 1).map((x) => new FavoriteContact(x.ID))
       }
-    case types.GET_CONTACTS_ERROR: 
+    case types.GET_CONTACTS_ERROR:
       return {
         ...state,
-        fetching: false, 
+        fetching: false,
         fetched: false,
         error: action.payload
       }
@@ -99,7 +99,7 @@ const manipulateData = (state, action) => {
     case types.UPDATE_CONTACT:
       return {
         ...state,
-        data: state.data.map((x,i) => i === action.payload.id ? action.payload.activeObject : x),
+        data: state.data.map((x,i) => x.id === action.payload.id ? action.payload.activeObject : x),
         modal: {
           isOpen : false,
           isNestedOpened : false,
@@ -180,7 +180,7 @@ const manipulateData = (state, action) => {
           activeList: action.payload
         };
       case types.FILTER_SEARCH_RESULT:
-
+        console.log("hey", action);
         return action.payload.length ? {
           ...state,
           searchedData: filterSearchResult(state.data, action.payload),
