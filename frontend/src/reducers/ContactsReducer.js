@@ -75,9 +75,11 @@ const manipulateData = (state, action) => {
         error: action.payload
       }
     case types.ADD_CONTACT:
+        state.data = dataSort([...state.data, new Contact(action.payload.id,action.payload.name,action.payload.phonenumber)], state.sorting.asc, state.sorting.column);
+        if(state.searched)
+          state.searchedData = filterSearchResult(state.data, state.searchParam);
       return {
         ...state,
-        data: dataSort([...state.data, new Contact(action.payload.id,action.payload.name,action.payload.phonenumber)], state.sorting.asc, state.sorting.column),
         input: {
           name: "",
           phonenumber: ""
@@ -184,7 +186,6 @@ const manipulateData = (state, action) => {
           activeList: action.payload
         };
       case types.FILTER_SEARCH_RESULT:
-        console.log("hey", action);
         return action.payload.length ? {
           ...state,
           searchedData: filterSearchResult(state.data, action.payload),
