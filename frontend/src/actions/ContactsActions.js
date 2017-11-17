@@ -78,7 +78,7 @@ export const add = (id, name, phonenumber) => {
 
 export const remove = (id = -1) => {
   return function (dispatch) {
-    
+
     axios.delete(API.DeleteContactReqest(), { data: {id: id} })
       .then(x => {
         dispatch({
@@ -92,14 +92,17 @@ export const remove = (id = -1) => {
 
 export const update = (id = -1, activeObject = {}) => {
   return function (dispatch) {
-
-    dispatch({
-      type: types.UPDATE_CONTACT,
-      payload: {
-        id: id,
-        activeObject: activeObject
-      }
-    });
+    axios.put(API.UpdateContactReqest(), { name: activeObject.name, tel_no: activeObject.phonenumber,  id: id} )
+      .then(x => {
+        dispatch({
+          type: types.UPDATE_CONTACT,
+          payload: {
+            id: id,
+            activeObject: activeObject
+          }
+        });
+      })
+      .catch(err => console.log(err.data))
   };
 };
 
@@ -157,14 +160,21 @@ export const toggleNestedModal = (object = null) => {
   };
 };
 
-export const toggleFavorite = (contactId = -1) => {
+export const toggleFavorite = (contactId = -1, isFavorite) => {
   return function (dispatch) {
+
+    axios.put(API.UpdateContactReqest(), { id: contactId, isFavorite: isFavorite ? 0 : 1 })
+    .then(x => {
+
       dispatch({
           type: types.TOGGLE_FAVORITE_CONTACT,
           payload: contactId
       });
+    }).catch(error => console.error(error));
   };
 };
+
+
 
 export const toggleListType = (listType = ListTypes.ALL) => {
   return function (dispatch) {
