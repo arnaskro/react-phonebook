@@ -97,9 +97,13 @@ const manipulateData = (state, action) => {
         }
         });
     case types.UPDATE_CONTACT:
+      state.data = state.data.map((x,i) => x.id === action.payload.id ? action.payload.activeObject : x);
+
+      if (state.searched)
+          state.searchedData = filterSearchResult(state.data, state.searchParam);
+
       return {
         ...state,
-        data: state.data.map((x,i) => x.id === action.payload.id ? action.payload.activeObject : x),
         modal: {
           isOpen : false,
           isNestedOpened : false,
